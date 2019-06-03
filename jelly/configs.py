@@ -1,0 +1,1 @@
+GRID_LENGTH = 8
