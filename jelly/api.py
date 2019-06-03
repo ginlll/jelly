@@ -10,12 +10,11 @@ blueprint = Blueprint('user', __name__)
 @blueprint.route('/start-level', methods=['GET'])
 def start():
     n = GRID_LENGTH
-    grid_str = get_grid_str()
-    hash_str = get_hash_str(grid_str)
-    grid_str_output = ''
-    for i in range(n):
-        grid_str_output += grid_str[i*n:i*n+n] + '\n'
-    return hash_str + '\n' + grid_str_output
+    level = request.args.get("level")
+    if not level.isdigit():
+        return 'INVALID PARAMS'
+    final_str_output = initial_level(level)
+    return final_str_output
 
 @blueprint.route('/move', methods=['GET'])
 def move():
@@ -31,7 +30,8 @@ def move():
     col1 = int(col1) if col1.isdigit() else None
     bombs = get_bombs(session_id)
     next_bombs = get_status(bombs, row0, col0, row1, col1)
+    update_level(session_id, next_bombs)
     next_bombs_output = ''
     for i in range(n):
-        next_bombs_output += next_bombs[i*n:i*n+n] + '<br>'
+        next_bombs_output += next_bombs[i*n:i*n+n] + '\n' # <br> in explorer
     return next_bombs_output
