@@ -17,7 +17,7 @@ def start():
         final_str_output = initial_level(level)
         return final_str_output
     except Exception as e:
-        #return e
+        print(e)
         return 'INVALID PARAMS'
 @blueprint.route('/move', methods=['GET'])
 def move():
@@ -40,5 +40,5 @@ def move():
             next_bombs_output += next_bombs[i*n:i*n+n] + '\n' # <br> in explorer
         return next_bombs_output
     except Exception as e:
-        #return e
+        print(e)
         return 'INVALID PARAMS'

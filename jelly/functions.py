@@ -1,6 +1,7 @@
 import numpy as np
 import random
-import hashlib
+import string
+#import hashlib
 from jelly.configs import GRID_LENGTH
 
 def get_status(bombs, row0, col0, row1, col1):
@@ -69,10 +70,8 @@ def get_grid_str():
         bombs_list.append(random.choice('BSVH'))
     return ''.join(bombs_list)
 
-def get_hash_str(bombs):
-    hash = hashlib.md5()
-    hash_str = hashlib.md5(bytes(bombs,encoding='utf-8'))
-    return hash_str.hexdigest()
+def get_hash_str():
+    return ''.join(random.sample(string.ascii_letters + string.digits, 16))
     
 
 #b = get_status('VSBBSBBBHBBBBBBBBSBBBBBBBBBBVBBBBHBBBBBBSBBBBSBBBBBBBBBBBBBBBBBB',5,0,6,2)

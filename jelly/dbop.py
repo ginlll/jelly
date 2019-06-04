@@ -56,19 +56,21 @@ def get_bombs(session_id):
 
 def initial_level(level):
     n = GRID_LENGTH
-    sql = "select session_id, start_grid from tbl_match where level_id=%s limit 1" % level
+    sql = "select start_grid from tbl_level where level_id=%s limit 1" % level
     data = get(sql)
     if not data:
         grid_str = get_grid_str()
-        hash_str = get_hash_str(grid_str)
-        insert("tbl_match", [{'session_id':hash_str, 'start_grid':grid_str, 'current_grid':grid_str}])
+        hash_str = get_hash_str()
+        insert("tbl_level", [{'start_grid':grid_str, 'level_id':int(level)}])
+        insert("tbl_match", [{'session_id':hash_str, 'current_grid':grid_str, 'level_id':int(level)}])
         grid_str_output = ''
         for i in range(n):
             grid_str_output += grid_str[i*n:i*n+n] + '\n'
         return hash_str + '\n' + grid_str_output
     else:
-        hash_str = data[0][0]
-        grid_str = data[0][1]
+        grid_str = data[0][0]
+        hash_str = get_hash_str()
+        insert("tbl_match", [{'session_id':hash_str, 'current_grid':grid_str, 'level_id':int(level)}])
         grid_str_output = ''
         for i in range(n):
             grid_str_output += grid_str[i*n:i*n+n] + '\n'
